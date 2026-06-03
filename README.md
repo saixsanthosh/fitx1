@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FITX — Stronger Everyday
+
+A premium, white-label gym management & fitness platform. Built as a full production-grade demo to sell branded versions to gym owners.
+
+**Designed & Developed by B SAI SANTHOSH** · ✉ saisanthosh102030@gmail.com · ☎ +91 8925075593
+
+---
+
+## Tech Stack
+
+- **Frontend:** Next.js 16 (App Router) + TypeScript + React
+- **Styling:** TailwindCSS v4 + custom CSS variables + Framer Motion
+- **Icons:** Lucide React
+- **Canvas:** HTML Canvas (fire particles, confetti)
+- **API:** Next.js Route Handlers (`/api/v1/*`)
+- **DB (schema ready):** PostgreSQL + Prisma
+- **Auth/Payments/AI (env-ready):** NextAuth + JWT, Stripe + Razorpay, OpenAI GPT-4
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## White-Label Rebranding
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Change **one file** — `src/config/brand.ts` — to rebrand the entire site:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```ts
+export const BRAND = {
+  name: "FITX",
+  tagline: "Stronger Everyday",
+  logoUrl: "/images/logo.png",
+  primaryColor: "#E8160C",
+  accentColor: "#D4A040",
+  // ...colors, creator info, SEO meta
+};
+```
 
-## Learn More
+Every color token, name, and logo across the site reads from this config (and the CSS variables in `src/app/globals.css`).
 
-To learn more about Next.js, take a look at the following resources:
+## Pages (24)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Marketing:** `/` (landing) · `/features` · `/pricing` · `/for-gyms` · `/about`
+**Auth:** `/signin` · `/signup` · `/verify` · `/forgot-password` · `/onboarding` (7-step wizard)
+**App:** `/dashboard` · `/exercises` · `/exercises/[id]` · `/nutrition` · `/tasks` · `/workouts` · `/workouts/active` · `/progress` · `/ai-coach` · `/social` · `/achievements` · `/profile` · `/settings` · `/subscription` · `/admin` (gym dashboard)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API (`/api/v1`)
 
-## Deploy on Vercel
+| Endpoint | Methods | Description |
+|---|---|---|
+| `/auth/login` | POST | Issue auth token |
+| `/users/me` | GET, PATCH | Current user profile |
+| `/exercises` | GET | List/filter/paginate exercises |
+| `/exercises/[id]` | GET | Single exercise |
+| `/workouts` | GET, POST | Workout history / log workout |
+| `/nutrition` | GET, POST | Diary totals / log food |
+| `/tasks` | GET, POST | Tasks / create task |
+| `/progress` | GET | Progress analytics |
+| `/social` | GET | Feed + leaderboard |
+| `/challenges` | GET | Group challenges |
+| `/programs` | GET | Workout programs |
+| `/ai/chat` | POST | AI Coach (GPT-4 ready) |
+| `/gym-admin` | GET | Members + revenue |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Response format:**
+```json
+{ "success": true, "data": ..., "meta": { "page": 1, "total": 45 } }
+{ "success": false, "error": { "code": "NOT_FOUND", "message": "..." } }
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Database
+
+A complete Prisma schema is in `prisma/schema.prisma` (User, Exercise, Program, WorkoutSession, MealEntry, Task, Habit, Gym). To connect a real Postgres DB, set `DATABASE_URL` in `.env` and run `npx prisma migrate dev`. The demo runs fully on seed data (`src/data/`) without a database.
+
+## Project Structure
+
+```
+src/
+  config/brand.ts        # white-label config
+  app/
+    (marketing)/         # public site
+    (auth)/              # auth + onboarding
+    (dashboard)/         # logged-in app
+    api/v1/              # backend route handlers
+  components/
+    ui/                  # FitxButton, FitxCard, MacroRing, AchievementBadge, ...
+    layout/              # Navbar, Sidebar, BottomNav, Footer
+    marketing/           # hero, features grid, testimonials, pricing
+  data/                  # exercises + seed data
+  lib/                   # utils, api helpers
+  types/                 # shared TypeScript types
+```
