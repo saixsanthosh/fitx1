@@ -72,7 +72,7 @@ export default function AICoachPage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-0px)]">
+    <div className="flex flex-col h-[calc(100dvh-5rem)] lg:h-[100dvh]">
       <div className="p-6 border-b border-fitx-divider">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-fitx-primary/20 border-2 border-fitx-primary/40 flex items-center justify-center">

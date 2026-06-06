@@ -9,8 +9,23 @@ import {
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FitxCard } from "@/components/ui/FitxCard";
 import { FitxButton } from "@/components/ui/FitxButton";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { IMG } from "@/data/images";
 import { CTASection } from "@/components/marketing/CTASection";
 import Link from "next/link";
+
+const moduleImages: Record<string, string> = {
+  exercises: IMG.gymEquipment,
+  nutrition: IMG.saladBowl,
+  tasks: IMG.training,
+  workout: IMG.workoutMan,
+  progress: IMG.athlete,
+  "ai-coach": IMG.womanFit,
+  social: IMG.gymInterior,
+  gamification: IMG.training,
+  toggles: IMG.gymEquipment,
+  "gym-admin": IMG.gymInterior,
+};
 
 const modules = [
   {
@@ -247,16 +262,25 @@ export default function FeaturesPage() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex-1"
               >
-                <div className="relative aspect-[4/3] rounded-2xl bg-fitx-card border border-fitx-border overflow-hidden flex items-center justify-center">
-                  <div className="absolute inset-0 bg-gradient-to-br from-fitx-primary/5 to-transparent" />
-                  <mod.icon className="h-24 w-24 text-fitx-primary/20" />
-                  <div className="absolute bottom-4 left-4 right-4 bg-fitx-surface/80 backdrop-blur-sm rounded-xl p-4 border border-fitx-border">
-                    <p className="text-xs font-heading text-fitx-text-secondary uppercase tracking-wider">
+                <div className="relative aspect-[4/3] rounded-2xl border border-fitx-border overflow-hidden">
+                  <SmartImage
+                    src={moduleImages[mod.id] ?? IMG.gymEquipment}
+                    alt={mod.title}
+                    className="w-full h-full"
+                    fallbackGradient="from-fitx-primary/20 to-fitx-surface"
+                    fallbackIcon={<mod.icon className="h-24 w-24" />}
+                    overlay
+                  />
+                  <div className="absolute top-4 left-4 z-10 w-12 h-12 rounded-xl bg-black/50 backdrop-blur-sm border border-fitx-primary/30 flex items-center justify-center">
+                    <mod.icon className="h-6 w-6 text-fitx-primary" />
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4 z-10 bg-black/50 backdrop-blur-md rounded-xl p-4 border border-fitx-border">
+                    <p className="text-xs font-heading text-fitx-text uppercase tracking-wider">
                       {mod.subtitle}
                     </p>
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-2">
                       {mod.features.slice(0, 3).map((f, j) => (
-                        <span key={j} className="text-[10px] bg-fitx-primary/10 text-fitx-primary px-2 py-1 rounded-full font-mono">
+                        <span key={j} className="text-[10px] bg-fitx-primary/20 text-fitx-glow px-2 py-1 rounded-full font-mono">
                           {f.split(" ").slice(0, 3).join(" ")}
                         </span>
                       ))}

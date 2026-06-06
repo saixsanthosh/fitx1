@@ -54,6 +54,7 @@ export function MacroRing({
 
   return (
     <div className={`flex flex-col items-center ${className ?? ""}`}>
+      <div className="relative" style={{ width: size, height: size }}>
       <svg ref={ref} width={size} height={size} className="-rotate-90">
         <circle
           cx={size / 2}
@@ -76,9 +77,10 @@ export function MacroRing({
           style={{ filter: `drop-shadow(0 0 6px ${color}50)` }}
         />
       </svg>
-      <div className="absolute flex flex-col items-center justify-center" style={{ width: size, height: size }}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-lg font-mono font-bold text-fitx-text">{animatedValue}</span>
         <span className="text-[10px] font-heading text-fitx-text-secondary uppercase">{unit}</span>
+      </div>
       </div>
       <span className="mt-2 text-xs font-heading text-fitx-text-secondary uppercase tracking-wider">{label}</span>
     </div>

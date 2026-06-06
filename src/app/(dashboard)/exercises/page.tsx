@@ -6,6 +6,8 @@ import { Search, Filter, Grid3x3, List, Heart, Dumbbell, ChevronDown } from "luc
 import { exercises, muscleGroups, equipmentList } from "@/data/exercises";
 import { FitxCard } from "@/components/ui/FitxCard";
 import { FitxInput } from "@/components/ui/FitxInput";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { muscleImage, muscleGradient } from "@/data/images";
 import Link from "next/link";
 import type { MuscleGroup, Equipment, Difficulty, ExerciseType } from "@/types";
 
@@ -216,11 +218,18 @@ export default function ExerciseLibraryPage() {
             >
               <Link href={`/exercises/${ex.id}`}>
                 <FitxCard className="group cursor-pointer h-full">
-                  <div className="relative aspect-video bg-fitx-surface rounded-xl mb-4 flex items-center justify-center overflow-hidden">
-                    <Dumbbell className="h-12 w-12 text-fitx-text-disabled group-hover:text-fitx-primary/40 transition-colors" />
+                  <div className="relative aspect-video rounded-xl mb-4 overflow-hidden">
+                    <SmartImage
+                      src={muscleImage[ex.muscleGroup] ?? muscleImage.Chest}
+                      alt={ex.name}
+                      className="w-full h-full group-hover:scale-105 transition-transform duration-500"
+                      fallbackGradient={muscleGradient[ex.muscleGroup] ?? "from-fitx-primary/30 to-fitx-surface"}
+                      fallbackIcon={<Dumbbell size={36} />}
+                      overlay
+                    />
                     <button
                       onClick={(e) => { e.preventDefault(); toggleFavorite(ex.id); }}
-                      className="absolute top-2 right-2 p-1.5 rounded-full bg-black/50 backdrop-blur-sm"
+                      className="absolute top-2 right-2 p-1.5 rounded-full bg-black/50 backdrop-blur-sm z-10"
                     >
                       <Heart size={14} className={favorites.has(ex.id) ? "text-fitx-primary fill-fitx-primary" : "text-white/60"} />
                     </button>

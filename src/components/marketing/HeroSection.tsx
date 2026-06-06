@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Play, ArrowRight, Flame } from "lucide-react";
+import { Play, ArrowRight } from "lucide-react";
 import { FitxButton } from "@/components/ui/FitxButton";
 import { FireParticles } from "@/components/ui/FireParticles";
+import { Logo } from "@/components/ui/Logo";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { IMG } from "@/data/images";
 import { BRAND } from "@/config/brand";
 import Link from "next/link";
 
@@ -45,8 +48,12 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#030000] via-[#0a0000] to-[#030000]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,22,12,0.08)_0%,transparent_70%)]" />
+      {/* Real gym photo, deeply faded for atmosphere */}
+      <div className="absolute inset-0 opacity-20">
+        <SmartImage src={IMG.heroGym} alt="Gym interior" className="w-full h-full" priority fallbackGradient="from-fitx-primary/20 to-fitx-bg" />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#030000]/80 via-[#0a0000]/90 to-[#030000]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,22,12,0.1)_0%,transparent_70%)]" />
       <FireParticles />
 
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-fitx-primary/5 blur-[120px]" />
@@ -59,8 +66,7 @@ export function HeroSection() {
           className="mb-8"
         >
           <div className="relative inline-flex items-center justify-center mb-6">
-            <Flame className="h-20 w-20 md:h-28 md:w-28 text-fitx-primary" />
-            <div className="absolute inset-0 blur-2xl bg-fitx-primary/30 rounded-full animate-glow-pulse" />
+            <Logo size={112} className="animate-glow-pulse" />
           </div>
         </motion.div>
 
@@ -68,7 +74,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display tracking-wider text-fitx-text uppercase leading-none mb-4"
+          className="text-[2.75rem] sm:text-7xl md:text-8xl lg:text-9xl font-display tracking-wider text-fitx-text uppercase leading-none mb-4"
         >
           Forge Your{" "}
           <span className="text-gradient-red">Legacy</span>

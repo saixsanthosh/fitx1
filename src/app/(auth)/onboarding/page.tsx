@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxCard } from "@/components/ui/FitxCard";
+import { Logo } from "@/components/ui/Logo";
 import { BRAND } from "@/config/brand";
 
 const steps = [
@@ -95,7 +96,7 @@ export default function OnboardingPage() {
 
       <div className="w-full max-w-lg">
         <div className="text-center mb-6">
-          <Flame className="h-8 w-8 text-fitx-primary mx-auto mb-2" />
+          <Logo size={36} className="mx-auto mb-2" />
           <span className="text-xl font-display tracking-[0.2em] text-fitx-text">{BRAND.name}</span>
         </div>
 

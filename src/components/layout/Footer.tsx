@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Flame, Mail, Phone, Globe, ExternalLink, Tv, Hash } from "lucide-react";
+import { Mail, Phone, Globe, ExternalLink, Tv, Hash } from "lucide-react";
 import { BRAND } from "@/config/brand";
 import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxInput } from "@/components/ui/FitxInput";
+import { Logo } from "@/components/ui/Logo";
 
 const footerLinks = {
   Product: [
@@ -44,7 +45,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <Flame className="h-8 w-8 text-fitx-primary" />
+              <Logo size={36} />
               <span className="text-2xl font-display tracking-[0.2em] text-fitx-text">
                 {BRAND.name}
               </span>
@@ -59,8 +60,10 @@ export function Footer() {
                 Join our newsletter
               </p>
               <div className="flex gap-2">
-                <FitxInput placeholder="Enter your email" className="text-sm" />
-                <FitxButton variant="primary" size="md">
+                <div className="flex-1 min-w-0">
+                  <FitxInput placeholder="Enter your email" className="text-sm" />
+                </div>
+                <FitxButton variant="primary" size="md" className="flex-shrink-0">
                   Subscribe
                 </FitxButton>
               </div>

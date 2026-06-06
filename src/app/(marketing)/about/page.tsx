@@ -9,6 +9,8 @@ import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxCard } from "@/components/ui/FitxCard";
 import { FitxInput } from "@/components/ui/FitxInput";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { IMG } from "@/data/images";
 import { BRAND } from "@/config/brand";
 
 const values = [
@@ -80,8 +82,12 @@ export default function AboutPage() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="grid grid-cols-2 gap-4"
+              className="space-y-4"
             >
+              <div className="aspect-[16/9] rounded-2xl overflow-hidden border border-fitx-border">
+                <SmartImage src={IMG.athlete} alt="FITX athlete training" className="w-full h-full" overlay fallbackGradient="from-fitx-primary/20 to-fitx-surface" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
               <div className="bg-fitx-card border border-fitx-border rounded-xl p-6 text-center">
                 <p className="text-3xl font-display text-fitx-primary">50K+</p>
                 <p className="text-xs font-heading text-fitx-text-secondary uppercase">Athletes</p>
@@ -97,6 +103,7 @@ export default function AboutPage() {
               <div className="bg-fitx-card border border-fitx-border rounded-xl p-6 text-center">
                 <p className="text-3xl font-display text-fitx-info">98%</p>
                 <p className="text-xs font-heading text-fitx-text-secondary uppercase">Retention</p>
+              </div>
               </div>
             </motion.div>
           </div>

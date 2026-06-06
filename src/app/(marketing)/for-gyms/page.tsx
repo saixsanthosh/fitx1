@@ -10,6 +10,8 @@ import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxCard } from "@/components/ui/FitxCard";
 import { FitxInput } from "@/components/ui/FitxInput";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { IMG } from "@/data/images";
 import { BRAND } from "@/config/brand";
 
 const benefits = [
@@ -71,7 +73,7 @@ export default function ForGymsPage() {
             transition={{ duration: 0.6 }}
           >
             <Building2 className="h-16 w-16 text-fitx-primary mx-auto mb-6" />
-            <h1 className="text-5xl md:text-7xl font-display tracking-wider text-fitx-text uppercase mb-4">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-display tracking-wider text-fitx-text uppercase mb-4">
               Run Your Entire Gym <br />
               <span className="text-gradient-red">From One Platform</span>
             </h1>
@@ -90,6 +92,22 @@ export default function ForGymsPage() {
                   Calculate Your ROI
                 </FitxButton>
               </a>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="mt-12 max-w-5xl mx-auto"
+          >
+            <div className="relative aspect-[16/7] rounded-2xl overflow-hidden border border-fitx-border glow-red">
+              <SmartImage src={IMG.gymInterior} alt="Modern gym powered by FITX" className="w-full h-full" overlay priority fallbackGradient="from-fitx-primary/20 to-fitx-surface" />
+              <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-10">
+                <span className="text-[10px] font-heading uppercase tracking-widest bg-fitx-primary/90 text-white px-3 py-1 rounded-full">
+                  Your brand, your gym, your platform
+                </span>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -195,7 +213,7 @@ export default function ForGymsPage() {
                 <span className="text-2xl font-mono text-fitx-text">&#8377;{monthlyFee.toLocaleString()}</span>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="bg-red-900/20 border border-red-500/20 rounded-xl p-4 text-center">
                 <p className="text-xs font-heading text-red-400 uppercase tracking-wider mb-1">Manual Cost /mo</p>
                 <p className="text-2xl font-mono text-red-400">&#8377;{manualCost.toLocaleString()}</p>

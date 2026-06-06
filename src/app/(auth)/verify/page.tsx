@@ -2,9 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Flame, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxCard } from "@/components/ui/FitxCard";
+import { Logo } from "@/components/ui/Logo";
 import { BRAND } from "@/config/brand";
 import Link from "next/link";
 
@@ -59,7 +60,7 @@ export default function VerifyPage() {
       transition={{ duration: 0.5 }}
     >
       <div className="text-center mb-8">
-        <Flame className="h-10 w-10 text-fitx-primary mx-auto mb-4" />
+        <Logo size={44} className="mx-auto mb-4" />
         <h1 className="text-2xl font-display tracking-wider text-fitx-text uppercase mb-2">
           Verify Your Email
         </h1>

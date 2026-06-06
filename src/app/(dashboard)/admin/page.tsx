@@ -169,17 +169,17 @@ export default function AdminPage() {
                   {m.name.split(" ").map((n) => n[0]).join("")}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-heading text-fitx-text uppercase tracking-wider">{m.name}</p>
+                  <p className="text-sm font-heading text-fitx-text uppercase tracking-wider truncate">{m.name}</p>
                   <p className="text-[10px] font-mono text-fitx-text-disabled">Joined {m.joined}</p>
                 </div>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full font-heading uppercase ${
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-heading uppercase hidden sm:inline ${
                   m.plan === "Elite" ? "bg-fitx-gold/20 text-fitx-gold" : m.plan === "Pro" ? "bg-fitx-primary/20 text-fitx-primary" : "bg-fitx-surface-variant text-fitx-text-disabled"
                 }`}>{m.plan}</span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full font-heading uppercase ${
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-heading uppercase whitespace-nowrap ${
                   m.status === "Active" ? "bg-fitx-success/20 text-fitx-success" : m.status === "At Risk" ? "bg-fitx-warning/20 text-fitx-warning" : "bg-red-500/20 text-red-400"
                 }`}>{m.status}</span>
-                <span className="text-xs font-mono text-fitx-text-secondary">{m.attendance}</span>
-                <ChevronRight size={16} className="text-fitx-text-disabled" />
+                <span className="text-xs font-mono text-fitx-text-secondary hidden sm:inline">{m.attendance}</span>
+                <ChevronRight size={16} className="text-fitx-text-disabled flex-shrink-0" />
               </motion.div>
             ))}
           </div>

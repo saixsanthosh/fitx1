@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Flame, Mail, Lock, Eye, Globe } from "lucide-react";
+import { Mail, Lock, Eye, Globe } from "lucide-react";
 import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxInput } from "@/components/ui/FitxInput";
 import { FitxCard } from "@/components/ui/FitxCard";
+import { Logo } from "@/components/ui/Logo";
 import { BRAND } from "@/config/brand";
 
 export default function SignInPage() {
@@ -32,7 +33,7 @@ export default function SignInPage() {
     >
       <div className="text-center mb-8">
         <Link href="/" className="inline-flex items-center gap-2 mb-4">
-          <Flame className="h-10 w-10 text-fitx-primary" />
+          <Logo size={44} />
           <span className="text-3xl font-display tracking-[0.2em] text-fitx-text">{BRAND.name}</span>
         </Link>
         <p className="text-sm text-fitx-text-secondary font-body">Welcome back, warrior</p>

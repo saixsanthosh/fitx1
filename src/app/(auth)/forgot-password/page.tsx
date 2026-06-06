@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Flame, Mail, ArrowLeft, Check } from "lucide-react";
+import { Mail, ArrowLeft, Check } from "lucide-react";
 import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxInput } from "@/components/ui/FitxInput";
 import { FitxCard } from "@/components/ui/FitxCard";
+import { Logo } from "@/components/ui/Logo";
 import { BRAND } from "@/config/brand";
 import Link from "next/link";
 
@@ -26,7 +27,7 @@ export default function ForgotPasswordPage() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <div className="text-center mb-8">
-        <Flame className="h-10 w-10 text-fitx-primary mx-auto mb-4" />
+        <Logo size={44} className="mx-auto mb-4" />
         <h1 className="text-2xl font-display tracking-wider text-fitx-text uppercase mb-2">
           {sent ? "Check Your Email" : "Reset Password"}
         </h1>

@@ -45,12 +45,12 @@ export function StatCard({ value, suffix = "", label, icon, className }: StatCar
       className={cn("text-center", className)}
     >
       <div className="flex items-center justify-center gap-2 mb-2">
-        {icon && <span className="text-fitx-primary">{icon}</span>}
-        <span className="text-4xl md:text-5xl font-display text-fitx-text tracking-wider">
+        {icon && <span className="text-fitx-primary hidden sm:inline">{icon}</span>}
+        <span className="text-3xl sm:text-4xl md:text-5xl font-display text-fitx-text tracking-wider">
           {count.toLocaleString()}{suffix}
         </span>
       </div>
-      <p className="text-sm font-heading text-fitx-text-secondary uppercase tracking-widest">{label}</p>
+      <p className="text-xs sm:text-sm font-heading text-fitx-text-secondary uppercase tracking-widest">{label}</p>
     </motion.div>
   );
 }

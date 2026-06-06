@@ -10,6 +10,8 @@ import {
 import { exercises } from "@/data/exercises";
 import { FitxCard } from "@/components/ui/FitxCard";
 import { FitxButton } from "@/components/ui/FitxButton";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { muscleImage, muscleGradient } from "@/data/images";
 import Link from "next/link";
 
 const tabs = ["How To", "Tips", "Muscles", "History", "Alternatives"] as const;
@@ -60,14 +62,24 @@ export default function ExerciseDetailPage() {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <div className="relative aspect-video bg-fitx-surface rounded-2xl mb-6 flex items-center justify-center border border-fitx-border overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <Dumbbell className="h-20 w-20 text-fitx-text-disabled" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-16 h-16 rounded-full bg-fitx-primary/80 flex items-center justify-center cursor-pointer hover:bg-fitx-primary transition-colors">
-              <Play size={28} className="text-white ml-1" />
+        <div className="relative aspect-video rounded-2xl mb-6 border border-fitx-border overflow-hidden">
+          <SmartImage
+            src={muscleImage[exercise.muscleGroup] ?? muscleImage.Chest}
+            alt={exercise.name}
+            className="w-full h-full"
+            fallbackGradient={muscleGradient[exercise.muscleGroup] ?? "from-fitx-primary/30 to-fitx-surface"}
+            fallbackIcon={<Dumbbell size={64} />}
+            overlay
+            priority
+          />
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="w-16 h-16 rounded-full bg-fitx-primary/80 flex items-center justify-center cursor-pointer hover:bg-fitx-primary transition-colors group">
+              <Play size={28} className="text-white ml-1 group-hover:scale-110 transition-transform" />
             </div>
           </div>
+          <span className="absolute bottom-3 left-3 z-10 text-[10px] font-heading uppercase tracking-widest bg-black/50 backdrop-blur-sm px-2 py-1 rounded text-white/80">
+            Form Demo
+          </span>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -92,7 +104,7 @@ export default function ExerciseDetailPage() {
               </span>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <FitxButton
               variant={favorite ? "primary" : "secondary"}
               size="sm"

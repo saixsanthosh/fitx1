@@ -8,7 +8,11 @@ import {
 } from "lucide-react";
 import { FitxCard } from "@/components/ui/FitxCard";
 import { FitxButton } from "@/components/ui/FitxButton";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { IMG } from "@/data/images";
 import Link from "next/link";
+
+const programImages = [IMG.training, IMG.athlete, IMG.workoutMan, IMG.gymEquipment];
 
 const todayWorkout = {
   name: "Push Day — Chest, Shoulders & Triceps",
@@ -145,8 +149,14 @@ export default function WorkoutsPage() {
               transition={{ delay: i * 0.05 }}
             >
               <FitxCard className={`flex items-center gap-4 ${prog.active ? "border-fitx-primary/40" : ""}`}>
-                <div className="w-14 h-14 rounded-xl bg-fitx-primary/10 border border-fitx-primary/20 flex items-center justify-center flex-shrink-0">
-                  <Dumbbell size={24} className="text-fitx-primary" />
+                <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                  <SmartImage
+                    src={programImages[i % programImages.length]}
+                    alt={prog.name}
+                    className="w-full h-full"
+                    fallbackGradient="from-fitx-primary/30 to-fitx-surface"
+                    fallbackIcon={<Dumbbell size={20} />}
+                  />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">

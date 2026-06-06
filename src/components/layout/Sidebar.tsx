@@ -5,11 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Flame, LayoutDashboard, Dumbbell, Utensils, ListChecks, Timer,
+  LayoutDashboard, Dumbbell, Utensils, ListChecks, Timer,
   TrendingUp, Bot, Users, Settings, Building2, ChevronLeft, ChevronRight,
-  Trophy, LogOut, User,
+  Trophy, User,
 } from "lucide-react";
 import { BRAND } from "@/config/brand";
+import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -39,7 +40,7 @@ export function Sidebar() {
       )}
     >
       <div className="flex items-center gap-2 p-4 border-b border-fitx-divider">
-        <Flame className="h-8 w-8 text-fitx-primary flex-shrink-0" />
+        <Logo size={32} className="flex-shrink-0" />
         {!collapsed && (
           <motion.span
             initial={{ opacity: 0 }}

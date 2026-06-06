@@ -47,7 +47,7 @@ export default function DashboardPage() {
           <p className="text-sm text-fitx-text-secondary font-body mt-1">
             Level 24 — 2,450 / 3,000 XP to next level
           </p>
-          <div className="mt-2 h-2 w-64 bg-fitx-surface-variant rounded-full overflow-hidden">
+          <div className="mt-2 h-2 w-full max-w-xs bg-fitx-surface-variant rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: "81.6%" }}
