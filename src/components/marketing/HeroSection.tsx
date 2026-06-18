@@ -1,138 +1,111 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Play, ArrowRight } from "lucide-react";
-import { FitxButton } from "@/components/ui/FitxButton";
-import { FireParticles } from "@/components/ui/FireParticles";
-import { Logo } from "@/components/ui/Logo";
-import { SmartImage } from "@/components/ui/SmartImage";
-import { IMG } from "@/data/images";
-import { BRAND } from "@/config/brand";
 import Link from "next/link";
+import { ArrowRight, Play } from "lucide-react";
+import { BlurText } from "@/components/ui/BlurText";
+import { VIDEO } from "@/data/media";
+import { IMG } from "@/data/images";
 
-const taglines = [
-  "Track Every Rep. Crush Every Goal.",
-  "AI-Powered Fitness Intelligence.",
-  "Your Gym. Your Brand. Your Platform.",
-  "Nutrition. Workouts. Progress. All-In-One.",
+const stats = [
+  { value: "50K+", label: "Athletes" },
+  { value: "1.2M", label: "Workouts logged" },
+  { value: "4.9★", label: "App rating" },
 ];
 
 export function HeroSection() {
-  const [taglineIndex, setTaglineIndex] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const target = taglines[taglineIndex];
-    const speed = isDeleting ? 30 : 60;
-
-    if (!isDeleting && displayText === target) {
-      const timer = setTimeout(() => setIsDeleting(true), 2500);
-      return () => clearTimeout(timer);
-    }
-
-    if (isDeleting && displayText === "") {
-      setIsDeleting(false);
-      setTaglineIndex((prev) => (prev + 1) % taglines.length);
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setDisplayText(
-        isDeleting ? target.slice(0, displayText.length - 1) : target.slice(0, displayText.length + 1)
-      );
-    }, speed);
-    return () => clearTimeout(timer);
-  }, [displayText, isDeleting, taglineIndex]);
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Real gym photo, deeply faded for atmosphere */}
-      <div className="absolute inset-0 opacity-20">
-        <SmartImage src={IMG.heroGym} alt="Gym interior" className="w-full h-full" priority fallbackGradient="from-fitx-primary/20 to-fitx-bg" />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-[#030000]/80 via-[#0a0000]/90 to-[#030000]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,22,12,0.1)_0%,transparent_70%)]" />
-      <FireParticles />
+    <section className="relative min-h-[100svh] w-full overflow-hidden bg-fitx-bg grain">
+      {/* Cinematic background video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster={IMG.heroGym}
+        className="absolute inset-0 h-full w-full object-cover animate-hero-zoom"
+      >
+        <source src={VIDEO.heroLoop} type="video/mp4" />
+      </video>
 
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-fitx-primary/5 blur-[120px]" />
+      {/* Legibility: subtle top→bottom gradient + soft vignette (no flat dark wash) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-fitx-bg/70 via-fitx-bg/25 to-fitx-bg/90" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,transparent_35%,rgba(7,8,9,0.6)_100%)]" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-32 pb-20">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8"
+      {/* Content */}
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-5xl flex-col items-center justify-center px-5 pt-28 pb-24 text-center">
+        <div
+          className="liquid-glass animate-blur-fade-up mb-7 flex items-center gap-2 rounded-full px-4 py-1.5"
+          style={{ animationDelay: "60ms" }}
         >
-          <div className="relative inline-flex items-center justify-center mb-6">
-            <Logo size={112} className="animate-glow-pulse" />
-          </div>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-[2.75rem] sm:text-7xl md:text-8xl lg:text-9xl font-display tracking-wider text-fitx-text uppercase leading-none mb-4"
-        >
-          Forge Your{" "}
-          <span className="text-gradient-red">Legacy</span>
-        </motion.h1>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="h-8 mb-8"
-        >
-          <span className="text-lg md:text-xl font-heading text-fitx-text-secondary tracking-wider">
-            {displayText}
-            <span className="animate-pulse text-fitx-primary">|</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-fitx-primary" />
+          <span className="text-[11px] uppercase tracking-[0.2em] text-fitx-text/80">
+            AI-Powered Fitness OS
           </span>
-        </motion.div>
+        </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="text-base md:text-lg text-fitx-text-secondary font-body max-w-2xl mx-auto mb-10"
-        >
-          {BRAND.name} is the all-in-one platform for athletes and gym owners.
-          Track workouts, nutrition, habits, and progress with AI-powered coaching.
-          White-label ready to power your gym&apos;s brand.
-        </motion.p>
+        <h1 className="font-display leading-[0.92] tracking-tight text-white text-[clamp(3rem,11vw,8.5rem)]">
+          <BlurText text="Forge Your" delay={150} step={120} />{" "}
+          <span
+            className="italic text-gradient-volt inline-block animate-blur-fade-up"
+            style={{ animationDelay: "520ms" }}
+          >
+            Legacy
+          </span>
+        </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+        <p
+          className="mt-7 max-w-xl text-base sm:text-lg leading-relaxed text-fitx-text-secondary animate-blur-fade-up"
+          style={{ animationDelay: "720ms" }}
         >
-          <Link href="/signup">
-            <FitxButton variant="primary" size="xl" icon={<ArrowRight size={20} />}>
-              Start Free Trial
-            </FitxButton>
+          Track every rep, scan every meal, follow guided exercise videos, and watch
+          your progress compound. One cinematic operating system for athletes — and
+          the gyms that train them.
+        </p>
+
+        <div
+          className="mt-9 flex flex-col sm:flex-row items-center gap-3.5 animate-blur-fade-up"
+          style={{ animationDelay: "900ms" }}
+        >
+          <Link
+            href="/signup"
+            className="group inline-flex items-center gap-2 rounded-full bg-fitx-primary px-8 py-4 text-sm font-semibold text-[#0b1400] transition-colors hover:bg-fitx-primary-bright"
+          >
+            Start free
+            <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
           </Link>
-          <Link href="#demo">
-            <FitxButton variant="outline" size="xl" icon={<Play size={20} />}>
-              Watch Demo
-            </FitxButton>
+          <Link
+            href="/dashboard"
+            className="liquid-glass inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-medium text-white transition-colors hover:bg-white/5"
+          >
+            <Play size={16} className="fill-current" /> Live demo
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="mt-16 flex justify-center"
+        <div
+          className="mt-14 grid w-full max-w-2xl grid-cols-3 gap-3 sm:gap-4 animate-blur-fade-up"
+          style={{ animationDelay: "1100ms" }}
         >
-          <div className="animate-bounce text-fitx-text-disabled">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 5v14M19 12l-7 7-7-7" />
-            </svg>
-          </div>
-        </motion.div>
+          {stats.map((s) => (
+            <div key={s.label} className="liquid-glass rounded-2xl px-3 py-5">
+              <div className="font-display text-3xl sm:text-4xl text-white">{s.value}</div>
+              <div className="mt-1 text-[10px] sm:text-[11px] uppercase tracking-wider text-fitx-text-secondary">
+                {s.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2 animate-blur-fade-up"
+        style={{ animationDelay: "1300ms" }}
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em] text-fitx-text-secondary">Scroll</span>
+        <div className="relative h-10 w-px overflow-hidden bg-fitx-divider">
+          <div className="absolute inset-x-0 h-1/3 bg-fitx-primary animate-scroll-down" />
+        </div>
       </div>
     </section>
   );

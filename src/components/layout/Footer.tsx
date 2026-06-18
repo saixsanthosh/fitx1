@@ -12,8 +12,8 @@ const footerLinks = {
     { label: "Features", href: "/features" },
     { label: "Pricing", href: "/pricing" },
     { label: "For Gyms", href: "/for-gyms" },
-    { label: "AI Coach", href: "/features#ai-coach" },
-    { label: "Exercise Library", href: "/features#exercises" },
+    { label: "AI Coach", href: "/ai-coach" },
+    { label: "Exercise Library", href: "/exercises" },
   ],
   Company: [
     { label: "About", href: "/about" },
@@ -32,35 +32,34 @@ const footerLinks = {
 };
 
 const socials = [
-  { icon: Globe, href: "#", label: "Instagram" },
+  { icon: Globe, href: BRAND.creator.instagramUrl, label: "Instagram" },
   { icon: Hash, href: "#", label: "Twitter" },
   { icon: Tv, href: "#", label: "YouTube" },
-  { icon: ExternalLink, href: "#", label: "GitHub" },
+  { icon: ExternalLink, href: "https://github.com/saixsanthosh/fitx1", label: "GitHub" },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-[#030000] border-t border-fitx-divider">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+    <footer className="border-t border-fitx-divider bg-fitx-bg">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
+            <Link href="/" className="mb-4 flex items-center gap-2">
               <Logo size={36} />
-              <span className="text-2xl font-display tracking-[0.2em] text-fitx-text">
-                {BRAND.name}
-              </span>
+              <span className="font-display text-2xl tracking-tight text-fitx-text">{BRAND.name}</span>
             </Link>
-            <p className="text-fitx-text-secondary font-body text-sm max-w-sm mb-6">
-              The ultimate fitness and gym management platform. Track workouts, nutrition, habits,
-              and progress with AI-powered coaching. White-label ready for gym owners.
+            <p className="mb-6 max-w-sm font-body text-sm text-fitx-text-secondary">
+              The all-in-one fitness operating system. Track workouts, scan food barcodes, log
+              nutrition, follow guided exercise videos, and watch your progress compound — with AI
+              coaching. White-label ready for gym owners.
             </p>
 
             <div className="mb-6">
-              <p className="text-xs font-heading text-fitx-text-secondary uppercase tracking-wider mb-3">
+              <p className="mb-3 text-xs font-heading uppercase tracking-wider text-fitx-text-secondary">
                 Join our newsletter
               </p>
               <div className="flex gap-2">
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <FitxInput placeholder="Enter your email" className="text-sm" />
                 </div>
                 <FitxButton variant="primary" size="md" className="flex-shrink-0">
@@ -74,8 +73,10 @@ export function Footer() {
                 <a
                   key={s.label}
                   href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label={s.label}
-                  className="w-10 h-10 rounded-xl bg-fitx-surface border border-fitx-border flex items-center justify-center text-fitx-text-secondary hover:text-fitx-primary hover:border-fitx-primary/40 transition-all"
+                  className="liquid-glass flex h-10 w-10 items-center justify-center rounded-full text-fitx-text-secondary transition-all hover:text-fitx-primary"
                 >
                   <s.icon size={18} />
                 </a>
@@ -85,7 +86,7 @@ export function Footer() {
 
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h3 className="font-heading text-sm text-fitx-text uppercase tracking-wider mb-4">
+              <h3 className="mb-4 font-heading text-sm uppercase tracking-wider text-fitx-text">
                 {title}
               </h3>
               <ul className="space-y-3">
@@ -93,7 +94,7 @@ export function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-fitx-text-secondary hover:text-fitx-text transition-colors font-body"
+                      className="font-body text-sm text-fitx-text-secondary transition-colors hover:text-fitx-text"
                     >
                       {link.label}
                     </Link>
@@ -106,25 +107,36 @@ export function Footer() {
       </div>
 
       <div className="border-t border-fitx-divider">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-fitx-text-disabled font-body">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 sm:px-6 md:flex-row lg:px-8">
+          <p className="font-body text-xs text-fitx-text-disabled">
             &copy; {new Date().getFullYear()} {BRAND.name}. All rights reserved.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-2 text-xs font-mono text-fitx-text-secondary">
-            <span>Designed &amp; Developed by <strong className="text-fitx-text">{BRAND.creator.name}</strong></span>
-            <span className="hidden sm:inline text-fitx-text-disabled">&middot;</span>
+          <div className="flex flex-col items-center gap-2 font-mono text-xs text-fitx-text-secondary sm:flex-row">
+            <span>
+              Designed &amp; Built by <strong className="text-fitx-text">{BRAND.creator.name}</strong>
+            </span>
+            <span className="hidden text-fitx-text-disabled sm:inline">&middot;</span>
+            <a
+              href={BRAND.creator.instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-fitx-primary"
+            >
+              @{BRAND.creator.instagram}
+            </a>
+            <span className="hidden text-fitx-text-disabled sm:inline">&middot;</span>
             <a
               href={`mailto:${BRAND.creator.email}`}
-              className="flex items-center gap-1 hover:text-fitx-primary transition-colors"
+              className="flex items-center gap-1 transition-colors hover:text-fitx-primary"
             >
               <Mail size={12} />
               {BRAND.creator.email}
             </a>
-            <span className="hidden sm:inline text-fitx-text-disabled">&middot;</span>
+            <span className="hidden text-fitx-text-disabled sm:inline">&middot;</span>
             <a
               href={`tel:${BRAND.creator.phone}`}
-              className="flex items-center gap-1 hover:text-fitx-primary transition-colors"
+              className="flex items-center gap-1 transition-colors hover:text-fitx-primary"
             >
               <Phone size={12} />
               {BRAND.creator.phoneDisplay}

@@ -1,19 +1,15 @@
 /* FITX — Designed & Developed by B SAI SANTHOSH | saisanthosh102030@gmail.com | +91 8925075593 */
-import type { Metadata } from "next";
-import { Bebas_Neue, Orbitron, Inter, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
 import { BRAND } from "@/config/brand";
+import { Toaster } from "@/components/ui/Toaster";
 import "./globals.css";
 
-const bebas = Bebas_Neue({
+const instrument = Instrument_Serif({
   weight: "400",
+  style: ["normal", "italic"],
   subsets: ["latin"],
-  variable: "--font-bebas",
-  display: "swap",
-});
-
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  variable: "--font-orbitron",
+  variable: "--font-instrument",
   display: "swap",
 });
 
@@ -30,6 +26,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://fitx1.vercel.app"),
   title: BRAND.meta.title,
   description: BRAND.meta.description,
   authors: [{ name: BRAND.meta.author }],
@@ -37,11 +34,26 @@ export const metadata: Metadata = {
     "fitness",
     "gym management",
     "workout tracker",
-    "nutrition",
-    "AI coach",
+    "nutrition tracker",
+    "barcode food scanner",
+    "exercise video library",
+    "AI fitness coach",
     "white-label gym",
     "FITX",
   ],
+  openGraph: {
+    title: BRAND.meta.title,
+    description: BRAND.meta.description,
+    type: "website",
+    siteName: BRAND.name,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#070809",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -52,10 +64,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bebas.variable} ${orbitron.variable} ${inter.variable} ${jetbrains.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
+      className={`${instrument.variable} ${inter.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-body bg-background text-foreground">
         {children}
+        <Toaster />
       </body>
     </html>
   );
