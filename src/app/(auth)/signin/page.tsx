@@ -3,26 +3,54 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, Lock, Eye, Globe } from "lucide-react";
+import { Mail, Lock, Globe } from "lucide-react";
+import { toast } from "sonner";
 import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxInput } from "@/components/ui/FitxInput";
 import { FitxCard } from "@/components/ui/FitxCard";
 import { Logo } from "@/components/ui/Logo";
 import { BRAND } from "@/config/brand";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const supabase = createClient();
+    if (!supabase) {
+      toast.error("Auth isn't configured yet. Add your Supabase keys.");
+      return;
+    }
     setLoading(true);
-    setTimeout(() => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      toast.error(error.message);
       setLoading(false);
-      window.location.href = "/dashboard";
-    }, 1500);
+      return;
+    }
+    toast.success("Welcome back, warrior.");
+    window.location.href = "/dashboard";
+  };
+
+  const handleGoogle = async () => {
+    const supabase = createClient();
+    if (!supabase) {
+      toast.error("Auth isn't configured yet. Add your Supabase keys.");
+      return;
+    }
+    setGoogleLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback?next=/dashboard` },
+    });
+    if (error) {
+      toast.error(error.message);
+      setGoogleLoading(false);
+    }
   };
 
   return (
@@ -34,7 +62,7 @@ export default function SignInPage() {
       <div className="text-center mb-8">
         <Link href="/" className="inline-flex items-center gap-2 mb-4">
           <Logo size={44} />
-          <span className="text-3xl font-display tracking-[0.2em] text-fitx-text">{BRAND.name}</span>
+          <span className="text-3xl font-display tracking-tight text-fitx-text">{BRAND.name}</span>
         </Link>
         <p className="text-sm text-fitx-text-secondary font-body">Welcome back, warrior</p>
       </div>
@@ -60,22 +88,16 @@ export default function SignInPage() {
             required
           />
 
-          <div className="flex items-center justify-between">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 rounded border-fitx-border bg-fitx-surface accent-[#E8160C]"
-              />
-              <span className="text-xs text-fitx-text-secondary font-body">Remember me</span>
-            </label>
-            <Link href="/forgot-password" className="text-xs text-fitx-primary hover:text-fitx-primary-bright transition-colors font-body">
+          <div className="flex items-center justify-end">
+            <Link
+              href="/forgot-password"
+              className="text-xs text-fitx-primary hover:text-fitx-primary-bright transition-colors font-body"
+            >
               Forgot password?
             </Link>
           </div>
 
-          <FitxButton variant="primary" size="lg" className="w-full" loading={loading}>
+          <FitxButton type="submit" variant="primary" size="lg" className="w-full" loading={loading}>
             Sign In
           </FitxButton>
         </form>
@@ -90,11 +112,25 @@ export default function SignInPage() {
         </div>
 
         <div className="mt-6">
-          <FitxButton variant="secondary" size="md" className="w-full" icon={<Globe size={18} />}>
+          <FitxButton
+            type="button"
+            variant="secondary"
+            size="md"
+            className="w-full"
+            icon={<Globe size={18} />}
+            loading={googleLoading}
+            onClick={handleGoogle}
+          >
             Continue with Google
           </FitxButton>
         </div>
       </FitxCard>
+
+      {!isSupabaseConfigured && (
+        <p className="mt-4 text-center text-[11px] text-fitx-warning font-body">
+          Demo mode — add Supabase keys to enable real sign-in.
+        </p>
+      )}
 
       <p className="mt-6 text-center text-sm text-fitx-text-secondary font-body">
         Don&apos;t have an account?{" "}

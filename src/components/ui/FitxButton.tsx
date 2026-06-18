@@ -17,7 +17,7 @@ interface FitxButtonProps
 
 const variantStyles: Record<Variant, string> = {
   primary:
-    "bg-fitx-primary text-white hover:bg-fitx-primary-bright shadow-[0_0_20px_rgba(232,22,12,0.35),0_0_60px_rgba(232,22,12,0.1)]",
+    "bg-fitx-primary text-[#0b1400] hover:bg-fitx-primary-bright shadow-[0_0_24px_rgba(198,242,78,0.35),0_0_60px_rgba(198,242,78,0.12)]",
   secondary: "bg-fitx-surface-variant text-fitx-text border border-fitx-border hover:border-fitx-primary/40",
   ghost: "bg-transparent text-fitx-text-secondary hover:text-fitx-text hover:bg-white/5",
   danger: "bg-red-700 text-white hover:bg-red-600",

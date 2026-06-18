@@ -4,11 +4,13 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, Lock, User, Globe, Check, X } from "lucide-react";
+import { toast } from "sonner";
 import { FitxButton } from "@/components/ui/FitxButton";
 import { FitxInput } from "@/components/ui/FitxInput";
 import { FitxCard } from "@/components/ui/FitxCard";
 import { Logo } from "@/components/ui/Logo";
 import { BRAND } from "@/config/brand";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 function PasswordStrength({ password }: { password: string }) {
   const checks = useMemo(() => [
@@ -54,14 +56,57 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreed) {
+      toast.error("Please accept the Terms to continue.");
+      return;
+    }
+    const supabase = createClient();
+    if (!supabase) {
+      toast.error("Auth isn't configured yet. Add your Supabase keys.");
+      return;
+    }
     setLoading(true);
-    setTimeout(() => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name },
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=/onboarding`,
+      },
+    });
+    if (error) {
+      toast.error(error.message);
       setLoading(false);
+      return;
+    }
+    if (data.session) {
+      // email confirmation disabled — straight in
+      window.location.href = "/onboarding";
+    } else {
+      toast.success("Account created! Check your email to confirm.");
       window.location.href = "/verify";
-    }, 1500);
+    }
+  };
+
+  const handleGoogle = async () => {
+    const supabase = createClient();
+    if (!supabase) {
+      toast.error("Auth isn't configured yet. Add your Supabase keys.");
+      return;
+    }
+    setGoogleLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback?next=/onboarding` },
+    });
+    if (error) {
+      toast.error(error.message);
+      setGoogleLoading(false);
+    }
   };
 
   return (
@@ -73,7 +118,7 @@ export default function SignUpPage() {
       <div className="text-center mb-8">
         <Link href="/" className="inline-flex items-center gap-2 mb-4">
           <Logo size={44} />
-          <span className="text-3xl font-display tracking-[0.2em] text-fitx-text">{BRAND.name}</span>
+          <span className="text-3xl font-display tracking-tight text-fitx-text">{BRAND.name}</span>
         </Link>
         <p className="text-sm text-fitx-text-secondary font-body">Begin your transformation</p>
       </div>
@@ -115,7 +160,7 @@ export default function SignUpPage() {
               type="checkbox"
               checked={agreed}
               onChange={(e) => setAgreed(e.target.checked)}
-              className="w-4 h-4 mt-0.5 rounded border-fitx-border bg-fitx-surface accent-[#E8160C]"
+              className="w-4 h-4 mt-0.5 rounded border-fitx-border bg-fitx-surface accent-[#C6F24E]"
               required
             />
             <span className="text-xs text-fitx-text-secondary font-body">
@@ -126,7 +171,7 @@ export default function SignUpPage() {
             </span>
           </label>
 
-          <FitxButton variant="primary" size="lg" className="w-full" loading={loading}>
+          <FitxButton type="submit" variant="primary" size="lg" className="w-full" loading={loading}>
             Create Account
           </FitxButton>
         </form>
@@ -141,11 +186,25 @@ export default function SignUpPage() {
         </div>
 
         <div className="mt-6">
-          <FitxButton variant="secondary" size="md" className="w-full" icon={<Globe size={18} />}>
+          <FitxButton
+            type="button"
+            variant="secondary"
+            size="md"
+            className="w-full"
+            icon={<Globe size={18} />}
+            loading={googleLoading}
+            onClick={handleGoogle}
+          >
             Sign up with Google
           </FitxButton>
         </div>
       </FitxCard>
+
+      {!isSupabaseConfigured && (
+        <p className="mt-4 text-center text-[11px] text-fitx-warning font-body">
+          Demo mode — add Supabase keys to enable real sign-up.
+        </p>
+      )}
 
       <p className="mt-6 text-center text-sm text-fitx-text-secondary font-body">
         Already have an account?{" "}
